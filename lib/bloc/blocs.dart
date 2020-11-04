@@ -1,18 +1,22 @@
 import 'package:bloc/bloc.dart';
+import 'package:hashka/bloc/states.dart';
+import 'package:hashka/cryptography/hashing.dart';
 
 import 'events.dart';
-
-class CounterBloc extends Bloc<CounterEvent, int> {
-  CounterBloc() : super(0);
+/// receives HashEvent and outputs HashState
+class HashBloc extends Bloc<HashEvent, HashState> {
+  HashBloc() : super(HashState.initialState());
 
   @override
-  Stream<int> mapEventToState(CounterEvent event) async* {
-    switch (event) {
-      case CounterEvent.decrement:
-        yield state - 1;
+  Stream<HashState> mapEventToState(HashEvent event) async* {
+    switch (event.algorithm) {
+      case Algorithm.MD5:
+        yield HashState(event,
+                       Hasher(event.algorithm).hash(event.userInput));
         break;
-      case CounterEvent.increment:
-        yield state + 1;
+      case  Algorithm.SHA_1:
+        yield HashState(event,
+                        Hasher(event.algorithm).hash(event.userInput));
         break;
     }
   }

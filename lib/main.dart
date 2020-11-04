@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'bloc/blocs.dart';
-import 'bloc/counter_page.dart';
+import 'bloc/hashka_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,11 +16,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: _blocCounterPage()
-      /// home: _standardCounterPage()
+      home: _hashPage()
     );
   }
 
-  Widget _blocCounterPage() => BlocProvider(create: (context) => CounterBloc(),
-                                            child:  CounterPage());
+  Widget _hashPage() => BlocProvider(create: (context) => HashBloc(),
+                                     child:  HashkaScreen());
 }

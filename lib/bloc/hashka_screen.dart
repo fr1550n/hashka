@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hashka/bloc/states.dart';
+import 'package:hashka/cryptography/hashing.dart';
 
 import 'blocs.dart';
 import 'events.dart';
 
-class CounterPage extends StatelessWidget {
+class HashkaScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    //nope: final CounterBloc counterBloc = BlocProvider.of<CounterBloc>(context);
-    // ignore: close_sinks
-    //nope:  final CounterBloc counterBloc = CounterBloc();
-
     return Scaffold(
-      appBar: AppBar(title: Text('Counter')),
-      body: BlocBuilder<CounterBloc, int>(
-        builder: (context, count) {
+      appBar: AppBar(title: Text('Hashka')),
+      body: BlocBuilder<HashBloc, HashState>(
+        builder: (context, state) {
           return Center(
             child: Text(
-              '$count',
+              '${state.hashedUserInput}',
               style: TextStyle(fontSize: 24.0),
             ),
           );
@@ -31,20 +29,18 @@ class CounterPage extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(vertical: 5.0),
             child: FloatingActionButton(
-              child: Icon(Icons.add),
+              child: Text("MD5"),
               onPressed: () {
-                //nope:  counterBloc.add(CounterEvent.increment);
-                BlocProvider.of<CounterBloc>(context).add(CounterEvent.increment);
+                BlocProvider.of<HashBloc>(context).add(HashEvent(Algorithm.MD5, "hello"));
               },
             ),
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 5.0),
             child: FloatingActionButton(
-              child: Icon(Icons.remove),
+              child: Text("SHA-1"),
               onPressed: () {
-                //nope:  counterBloc.add(CounterEvent.decrement);
-                BlocProvider.of<CounterBloc>(context).add(CounterEvent.decrement);
+                BlocProvider.of<HashBloc>(context).add(HashEvent(Algorithm.SHA_1, "hello"));
               },
             ),
           ),
