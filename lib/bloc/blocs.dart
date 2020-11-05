@@ -10,16 +10,7 @@ class HashBloc extends Bloc<HashEvent, HashState> {
 
   @override
   Stream<HashState> mapEventToState(HashEvent event) async* {
-    switch (event.algorithm) {
-      case Algorithm.MD5:
-        yield HashState(event,
-                       Hasher(event.algorithm).hash(event.userInput));
-        break;
-      case  Algorithm.SHA_1:
-        yield HashState(event,
-                        Hasher(event.algorithm).hash(event.userInput));
-        break;
-    }
+    yield HashState(event, Hasher(event.algorithm).hash(event.userInput));
   }
 }
 
