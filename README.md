@@ -1,16 +1,4 @@
 # hashka
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Experimenting with the Bloc architecture in flutter.  
+The app allows the user to generate hashes from text they've input, the hash is copied to  the clipboard (e.g. provides an easy way to generate an easily memorable very long password).
