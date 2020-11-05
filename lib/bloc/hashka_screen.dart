@@ -9,30 +9,39 @@ import 'blocs.dart';
 import 'events.dart';
 
 class HashkaScreen extends StatelessWidget {
+  final controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    final _formKey = GlobalKey<FormState>();
     return Scaffold(
         appBar: AppBar(title: Text('Hashka')),
         body: BlocBuilder<HashBloc, HashState>(builder: (context, state) {
-          return Center(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Expanded(
-                      child: Material(
-                          elevation: 5.0,
-                          borderRadius: BorderRadius.circular(5.0),
-                          color: Color(0xFFFFDB5A),
-                          child: _createHashResultDisplay(state)))
-                ]),
-                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  _createButton(context, Algorithm.MD5, 0xFF54422E)
-                ]),
-                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  _createButton(context, Algorithm.SHA_1, 0xff01A0C7)
-                ]),
-              ]));
+          return Form(
+              key: _formKey,
+              child: Center(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      Expanded(
+                          child: Material(
+                              color: Color(0xFFFFDB5A),
+                              child: _createHashResultDisplay(state)))
+                    ]),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [_createUserInputField(controller)],
+                    ),
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      _createButton(
+                          context, Algorithm.MD5, 0xff008080, controller)
+                    ]),
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      _createButton(
+                          context, Algorithm.SHA_1, 0xff008080, controller)
+                    ]),
+                  ])));
         }));
   }
 
@@ -43,17 +52,41 @@ class HashkaScreen extends StatelessWidget {
     );
   }
 
-  Widget _createButton(BuildContext ctx, Algorithm algorithm, num colour) {
+  Widget _createButton(BuildContext ctx, Algorithm algorithm, num colour,
+      TextEditingController controller) {
     return Material(
         elevation: 5.0,
         borderRadius: BorderRadius.circular(5.0),
         color: Color(colour),
         child: MaterialButton(
             minWidth: MediaQuery.of(ctx).size.width / 2,
+            height: 100,
             padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-            child: Text(enumToString(algorithm)),
+            child: Text(
+              enumToString(algorithm),
+              style: TextStyle(fontWeight: FontWeight.bold),
+              textScaleFactor: 1.7,
+            ),
             onPressed: () {
-              BlocProvider.of<HashBloc>(ctx).add(HashEvent(algorithm, "hello"));
+              BlocProvider.of<HashBloc>(ctx)
+                  .add(HashEvent(algorithm, controller.text));
+              controller.clear();
             }));
   }
+}
+
+Widget _createUserInputField(TextEditingController controller) {
+  return Expanded(
+      child: TextFormField(
+    controller: controller,
+    decoration: const InputDecoration(
+      hintText: "Enter text you'd like hashed here",
+    ),
+    validator: (value) {
+      if (value.isEmpty) {
+        return 'Please enter some text';
+      }
+      return null;
+    },
+  ));
 }
