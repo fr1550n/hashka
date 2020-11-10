@@ -27,7 +27,7 @@ class HashkaScreen extends StatelessWidget {
                       Expanded(
                           child: Material(
                               color: Color(0xFFFFDB5A),
-                              child: _createHashResultDisplay(state)))
+                              child: _renderHashState(state, context))),
                     ]),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -45,11 +45,11 @@ class HashkaScreen extends StatelessWidget {
         }));
   }
 
-  Widget _createHashResultDisplay(HashState state) {
-    return Text(
-      '${state.hashedUserInput}',
-      style: TextStyle(fontSize: 24.0),
-    );
+  Widget _renderHashState(HashState state, BuildContext ctx) {
+      WidgetsBinding.instance.addPostFrameCallback((_){
+        Scaffold.of(ctx).showSnackBar(SnackBar(content: Text('Copied! ${state.hashedUserInput}')));
+      });
+    return Text('${state.hashedUserInput}', style: TextStyle(fontSize: 24.0),);
   }
 
   Widget _createButton(BuildContext ctx, Algorithm algorithm, num colour,
