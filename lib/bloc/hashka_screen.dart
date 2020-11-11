@@ -9,7 +9,7 @@ import 'blocs.dart';
 import 'events.dart';
 
 class HashkaScreen extends StatelessWidget {
-  
+
   final controller = TextEditingController();
 
   @override
