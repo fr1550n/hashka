@@ -20,6 +20,11 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  Widget _hashPage() => BlocProvider(create: (context) => HashBloc(),
-                                     child:  HashkaScreen());
+  Widget _hashPage() {
+    // ignore: close_sinks
+    final hashBloc = HashBloc();
+    return MultiBlocProvider(providers: [ BlocProvider(create: (context) => hashBloc),
+                                          BlocProvider(create: (context) => SystemEventBloc(hashBloc)), ],
+                             child: HashkaScreen());
+  }
 }

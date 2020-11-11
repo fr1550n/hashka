@@ -2,7 +2,8 @@
 import 'package:hashka/bloc/events.dart';
 import 'package:hashka/cryptography/hashing.dart';
 
-class HashState{
+/// wraps the hashed user input
+class HashState {
   HashEvent event;
   String    hashedUserInput;
 
@@ -12,5 +13,21 @@ class HashState{
       event           = HashEvent(Algorithm.NONE, "");
       hashedUserInput = "";
   }
+}
 
+enum SystemStates {
+  NONE,
+  CLIPBOARD_FILLED
+}
+
+/// abstraction for some aspect of the System having changed, e.g. clipboard has data
+class SystemState {
+  SystemStates systemState;
+  String data;
+
+  SystemState({this.systemState, this.data = ''});
+
+  SystemState.initialState() {
+    systemState = SystemStates.NONE;
+  }
 }

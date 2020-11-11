@@ -5,3 +5,8 @@ class HashEvent {
    String    userInput;
    HashEvent(this.algorithm, this.userInput);
 }
+
+class SystemEvent {
+   String hashedUserInput;
+   SystemEvent(this.hashedUserInput);
+}
