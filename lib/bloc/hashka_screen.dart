@@ -9,7 +9,6 @@ import 'blocs.dart';
 import 'events.dart';
 
 class HashkaScreen extends StatelessWidget {
-
   final controller = TextEditingController();
 
   @override
@@ -39,22 +38,29 @@ class HashkaScreen extends StatelessWidget {
                           context, Algorithm.MD5, 0xff008080, controller)
                     ]),
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      BlocBuilder<SystemEventBloc, SystemState>(builder: (context, state) {
-                        SnackBar snackBar = SnackBar(content: Text('Copied! ${state.data}'));
-                        WidgetsBinding.instance.addPostFrameCallback((_){
-                          Scaffold.of(context).showSnackBar(snackBar);
-                        });
-                        return Text('', ); // TODO how do we avoid this bullshit?
-                      },),
-                      _createButton(
-                          context, Algorithm.SHA_1, 0xff008080, controller)
+                      BlocListener<SystemEventBloc, SystemState>(
+                        listener: (context, state) {
+                          SnackBar snackBar =
+                              SnackBar(content: Text('Copied! ${state.data}'));
+                          WidgetsBinding.instance.addPostFrameCallback(
+                            (_) {
+                              Scaffold.of(context).showSnackBar(snackBar);
+                            },
+                          );
+                        },
+                        child: _createButton(
+                            context, Algorithm.SHA_1, 0xff008080, controller),
+                      ),
                     ]),
                   ])));
         }));
   }
 
   Widget _renderHashState(HashState state, BuildContext ctx) {
-    return Text('${state.hashedUserInput}', style: TextStyle(fontSize: 24.0),);
+    return Text(
+      '${state.hashedUserInput}',
+      style: TextStyle(fontSize: 24.0),
+    );
   }
 
   Widget _createButton(BuildContext ctx, Algorithm algorithm, num colour,
@@ -73,7 +79,9 @@ class HashkaScreen extends StatelessWidget {
               textScaleFactor: 1.7,
             ),
             onPressed: () {
-              BlocProvider.of<HashBloc>(ctx).add(HashEvent(algorithm, controller.text), );
+              BlocProvider.of<HashBloc>(ctx).add(
+                HashEvent(algorithm, controller.text),
+              );
               controller.clear();
             }));
   }
