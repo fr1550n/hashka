@@ -1,18 +1,23 @@
 
+import 'package:equatable/equatable.dart';
 import 'package:hashka/bloc/events.dart';
 import 'package:hashka/cryptography/hashing.dart';
 
 /// wraps the hashed user input
-class HashState {
-  HashEvent event;
-  String    hashedUserInput;
+class HashState extends Equatable {
+  final HashEvent event;
+  final String    hashedUserInput;
 
   HashState(this.event, this.hashedUserInput);
 
-  HashState.initialState() {
-      event           = HashEvent(Algorithm.NONE, "");
-      hashedUserInput = "";
-  }
+  /// named constructor with final fields ftw!
+  HashState.initialState():
+    event           = HashEvent(Algorithm.NONE, ""),
+    hashedUserInput = "";
+
+
+  @override
+  List<Object> get props => [ event, hashedUserInput ];
 }
 
 enum SystemStates {
@@ -22,12 +27,13 @@ enum SystemStates {
 
 /// abstraction for some aspect of the System having changed, e.g. clipboard has data
 class SystemState {
-  SystemStates systemState;
-  String data;
+  final SystemStates systemState;
+  final String data;
 
-  SystemState({this.systemState, this.data = ''});
+  SystemState(this.systemState, this.data);
 
-  SystemState.initialState() {
-    systemState = SystemStates.NONE;
-  }
+  SystemState.initialState():
+        systemState = SystemStates.NONE,
+        data = '';
+
 }

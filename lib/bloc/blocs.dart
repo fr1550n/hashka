@@ -18,7 +18,7 @@ class HashBloc extends Bloc<HashEvent, HashState> {
        yield HashState(event, hash);
   }
 }
-
+/// https://bloclibrary.dev/#/architecture?id=bloc-to-bloc-communication
 /// listens for HashState and converts them into SystemEvents
 /// receives SystemEvent and outputs SystemState
 /// e.g. to reflect that we've copied some data to the system's clipboard
@@ -37,7 +37,7 @@ class SystemEventBloc extends Bloc<SystemEvent, SystemState> {
   @override
   Stream<SystemState> mapEventToState(event) async* {
     copyToClipboard(event.hashedUserInput);
-    yield SystemState(systemState: SystemStates.CLIPBOARD_FILLED, data: event.hashedUserInput);
+    yield SystemState(SystemStates.CLIPBOARD_FILLED, event.hashedUserInput);
   }
 
   void copyToClipboard(String hash) {
