@@ -1,5 +1,5 @@
 name: hashka
-description: A new Flutter project.
+description: generates hashes from user input for pasting elsewhere; no mischief.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.

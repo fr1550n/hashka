@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/blocs.dart';
-import 'bloc/hashka_screen.dart';
+import 'ui/hashka_screen.dart';
 
 void main() {
   runApp(MyApp());
