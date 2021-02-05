@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hashka/bloc/states.dart';
 import 'package:hashka/cryptography/hashing.dart';
 import 'package:hashka/utils/utils.dart';
+// import 'dart:developer' as developer;
 
 import '../bloc/blocs.dart';
 import '../bloc/events.dart';
@@ -17,42 +18,52 @@ class HashkaScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(title: Text('Hashka')),
         body: BlocBuilder<HashBloc, HashState>(builder: (context, state) {
-          return Form(
-              key: _formKey,
-              child: Center(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      Expanded(
-                          child: Material(
-                              color: Color(0xFFFFDB5A),
-                              child: _renderHashState(state, context))),
-                    ]),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [_createUserInputField(controller)],
-                    ),
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      _createButton(
-                          context, Algorithm.MD5, 0xff008080, controller)
-                    ]),
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      BlocListener<SystemEventBloc, SystemState>(
-                        listener: (context, state) {
-                          SnackBar snackBar =
-                              SnackBar(content: Text('Copied! ${state.data}'));
-                          WidgetsBinding.instance.addPostFrameCallback(
-                            (_) {
-                              Scaffold.of(context).showSnackBar(snackBar);
-                            },
-                          );
-                        },
-                        child: _createButton(
-                            context, Algorithm.SHA_1, 0xff008080, controller),
+          return BlocBuilder<CronBloc, CronState>(
+              builder: (context, cronState) {
+            return Form(
+                key: _formKey,
+                child: Center(
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: Material(
+                                  color: Color(cronState.getColour()),
+                                  child: _renderHashState(state, context)),
+                            )
+                          ]),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [_createUserInputField(controller)],
                       ),
-                    ]),
-                  ])));
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _createButton(
+                                context, Algorithm.MD5, 0xff008080, controller)
+                          ]),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            BlocListener<SystemEventBloc, SystemState>(
+                              listener: (context, state) {
+                                SnackBar snackBar = SnackBar(
+                                    content: Text('Copied! ${state.data}'));
+                                WidgetsBinding.instance.addPostFrameCallback(
+                                  (_) {
+                                    Scaffold.of(context).showSnackBar(snackBar);
+                                  },
+                                );
+                              },
+                              child: _createButton(context, Algorithm.SHA_1,
+                                  0xff008080, controller),
+                            ),
+                          ]),
+                    ])));
+          });
         }));
   }
 

@@ -15,3 +15,7 @@ class SystemEvent {
    final String hashedUserInput;
    SystemEvent(this.hashedUserInput);
 }
+
+class CronEvent {
+  CronEvent();
+}

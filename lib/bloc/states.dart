@@ -15,7 +15,6 @@ class HashState extends Equatable {
     event           = HashEvent(Algorithm.NONE, ""),
     hashedUserInput = "";
 
-
   @override
   List<Object> get props => [ event, hashedUserInput ];
 }
@@ -35,5 +34,17 @@ class SystemState {
   SystemState.initialState():
         systemState = SystemStates.NONE,
         data = '';
+
+}
+
+class CronState {
+  final String data;
+
+  CronState(this.data);
+
+  CronState.initialState(): data = "0xFFFFFFFF";
+
+  /// returns an 0xAARRGGBB with full alpha set
+  int getColour() => int.parse(data.replaceAll(new RegExp(r'#'), '0x')) | 0xFF000000;
 
 }

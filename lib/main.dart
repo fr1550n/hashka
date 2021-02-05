@@ -24,7 +24,8 @@ class MyApp extends StatelessWidget {
     // ignore: close_sinks
     final hashBloc = HashBloc();
     return MultiBlocProvider(providers: [ BlocProvider(create: (context) => hashBloc),
-                                          BlocProvider(create: (context) => SystemEventBloc(hashBloc)), ],
+                                          BlocProvider(create: (context) => SystemEventBloc(hashBloc)),
+                                          BlocProvider(create: (context) => CronBloc())],
                              child: HashkaScreen());
   }
 }
